@@ -10,13 +10,15 @@ c:set var=변수명  value="값"
 <c:set var="CP" value="${pageContext.request.contextPath}" scope="page" />     
 
 <!DOCTYPE html>
-<html>
-<head>
+<html> 
+<head>  
+<link rel="stylesheet" href="${CP}/resources/css/user.css">
 <meta charset="UTF-8">
+
 <link rel="shortcut icon" type="image/x-icon" href="/ehr/favicon.ico">
 <meta name="viewport"  content="width=device-width, initial-scale=1">
 <link href="${CP}/resources/css/bootstrap.min.css" rel="stylesheet" >
-<link rel="stylesheet" href="${CP}/resources/css/user.css">
+
 <title>Insert title here</title>
 <script src="${CP}/resources/js/bootstrap.bundle.min.js"></script>
 <script src="${CP}/resources/js/jquery-3.7.1.js"></script>
@@ -25,12 +27,13 @@ c:set var=변수명  value="값"
 document.addEventListener("DOMContentLoaded",function(){
 	console.log("DOMContentLoaded");
 	
-	//javasript 선택자
+	//javasript 선택자 
 	const moveToRegBTN  = document.querySelector("#moveToReg");
 	const doRetrieveBTN = document.querySelector("#doRetrieve");//목록 버튼
 	const searchDivSelect = document.querySelector("#searchDiv");//id 등록 번튼
+  
 	//let searchDivSelect = document.querySelector(".pcwk_select");//style class선택
-	
+	  
 	//jQuery
 	//const doRetrieveBTN = $("#doRetrieve")
 	//const doRetrieveBTN = $(".doRetrieve")
@@ -38,7 +41,8 @@ document.addEventListener("DOMContentLoaded",function(){
 	//form submit방지
 	const boardForm = document.querySelector("#boardFrm");
 	const searchWordTxt = document.querySelector("#searchWord");
-	
+	//변경
+
 	//jquery
 /* 	$("#boardTable>tbody").on("click","tr" , function(e){
 		 console.log('boardTable:');
@@ -47,7 +51,9 @@ document.addEventListener("DOMContentLoaded",function(){
 		 console.log('seq:'+seq);
 	}); */
 	 
-	//javascript
+  
+
+	//javascript:다건 이벤트 처리
 	const rows = document.querySelectorAll("#boardTable>tbody>tr");
 	//각행에 이벤트 처리
 	rows.forEach(function(row) {
@@ -56,6 +62,12 @@ document.addEventListener("DOMContentLoaded",function(){
 			 let cells = row.getElementsByTagName("td");
 			 const seq   = cells[5].innerText;
 			 console.log('seq:'+seq);
+
+       //javascript
+       if(confirm('상세 조회 하시겠어요!')==false) return;
+      //http://localhost:8080/board/doSelectOne.do?seq=5151
+       window.location.href = "${CP}/board/doSelectOne.do?seq="+seq;   
+
 		});
 	});
 
@@ -153,14 +165,14 @@ document.addEventListener("DOMContentLoaded",function(){
           <div class="col-auto">
               <input type="text" class="form-control" id="searchWord" name="searchWord" maxlength="100" placeholder="검색어를 입력 하세요" value="${paramVO.searchWord}">
           </div>   
-          <div class="col-auto">
+          <div class="col-auto"> 
                <select class="form-select" id="pageSize" name="pageSize">
                   <c:forEach var="vo" items="${pageSize }">
                     <option value="<c:out value='${vo.detCode }' />" <c:if test="${vo.detCode == paramVO.pageSize }">selected</c:if>  ><c:out value='${vo.detName}' /></option>
                   </c:forEach>
                </select>  
-          </div>  
-          <div class="col-auto"> <!-- 열의 너비를 내용에 따라 자동으로 설정 -->
+          </div>    
+          <div class="col-auto "> <!-- 열의 너비를 내용에 따라 자동으로 설정 -->
             <input type="button" value="목록" class="btn btn-primary"  id="doRetrieve">
             <input type="button" value="등록" class="btn btn-primary"  id="moveToReg">
           </div>              

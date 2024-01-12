@@ -10,6 +10,19 @@
 </style>
 <title>PCWK</title>
 <script>
+document.addEventListener("DOMContentLoaded",function(){
+    console.log('DOMContentLoaded');
+
+    const doRetrieveBTN = document.querySelector("#doRetrieve");
+
+    doRetrieveBTN.addEventListener("click",function(e) {
+        console.log('doRetrieveBTN click');
+    })
+  
+
+});
+
+
 </script>
 </head>
 <body>
@@ -25,7 +38,7 @@
     <!-- 버튼 -->
     <div class="row justify-content-end">
         <div class="col-auto">
-            <input type="button" value="목록" class="btn btn-primary" >
+            <input type="button" value="목록" class="btn btn-primary"  id="doRetrieve">
             <input type="button" value="등록" class="btn btn-primary" >
         </div>
     </div>

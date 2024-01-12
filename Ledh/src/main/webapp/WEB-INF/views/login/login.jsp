@@ -85,7 +85,7 @@
 	               <label for="userId">아이디</label>
 	            </td>
 	            <td>        
-	               <input type="text" id="userId" name="userId" size="20" maxlength="30">
+	               <input type="text" id="userId" name="userId" size="20" maxlength="30" value="p99">
 	            </td>
 	        </tr>
 	        <tr>
@@ -93,7 +93,7 @@
 	             <label for="password">비밀번호</label>
 	           </td>
 	           <td>     
-	             <input  type="password" id="password" name="password" size="20" maxlength="30" class="input">
+	             <input  type="password" id="password" name="password" size="20" maxlength="30" class="input" value="4321">
 	           </td>  
 	        </tr>
 	        </table>         

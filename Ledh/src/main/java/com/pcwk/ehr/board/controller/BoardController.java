@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import com.pcwk.ehr.cmn.PcwkLogger;
 import com.pcwk.ehr.cmn.StringUtil;
 import com.pcwk.ehr.code.domain.CodeVO;
 import com.pcwk.ehr.code.service.CodeService;
+import com.pcwk.ehr.user.domain.UserVO;
 
 @Controller
 @RequestMapping("board")
@@ -138,7 +141,7 @@ public class BoardController implements PcwkLogger{
 	}
 	
 	@GetMapping(value = "/doSelectOne.do")
-	public String doSelectOne(BoardVO inVO, Model model) throws SQLException, EmptyResultDataAccessException{
+	public String doSelectOne(BoardVO inVO, Model model, HttpSession httpSession) throws SQLException, EmptyResultDataAccessException{
 		String view = "board/board_mng";///WEB-INF/views/+board/board_mng+.jsp ->/WEB-INF/views/board/board_mng.jsp
 		LOG.debug("┌───────────────────────────────────┐");
 		LOG.debug("│ doSelectOne                       │");
@@ -152,8 +155,27 @@ public class BoardController implements PcwkLogger{
 			throw new NullPointerException("순번을 입력 하세요");
 		}
 		
+		if( null==inVO.getRegId()) {
+			inVO.setRegId(StringUtil.nvl(inVO.getRegId(),"Guest"));
+		}
+		
+		//session이 있는 경우
+		if(null != httpSession.getAttribute("user")) {
+			UserVO user = (UserVO) httpSession.getAttribute("user");
+			inVO.setRegId(user.getUserId());
+		}
+		
 		BoardVO  outVO = service.doSelectOne(inVO);
 		model.addAttribute("vo", outVO);
+		
+		//DIV코드 조회
+		Map<String, Object> codes=new HashMap<String, Object>();
+		String[] codeStr = {"BOARD_DIV"};
+		codes.put("code", codeStr);
+		
+		List<CodeVO> codeList = this.codeService.doRetrieve(codes);
+		model.addAttribute("divCode", codeList);
+		
 		return view;
 	}
 	
