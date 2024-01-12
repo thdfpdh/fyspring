@@ -6,41 +6,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="CP" value="${pageContext.request.contextPath}" scope="page" />     
-<%
-//public static String renderingPager(long maxNum, long currentPageNo, long rowPerPage, long bottomCount, String url, String scriptName ) {
-    long bottomCount = 10;
-    long pageSize    = 10;//10,20,30..
-    long pageNo      = 1;
-	long totalCnt = Long.parseLong(request.getAttribute("totalCnt").toString());
-   
-	BoardVO paramVO =  (BoardVO)request.getAttribute("paramVO");
-	pageSize  = paramVO.getPageSize();
-	pageNo    = paramVO.getPageNo();
-	
-	String contextPath = request.getContextPath();// /ehr
-   //화면에 출력:내장 객체
-   //out.print("pageSize:"+pageSize+"<br/>");
-   //out.print("pageNo:"+pageNo+"<br/>");
-   //out.print("totalCnt:"+totalCnt+"<br/>");
-   //out.print("contextPath:"+contextPath+"<br/>");
-   
-    String html = StringUtil.renderingPager(totalCnt, pageNo, pageSize, bottomCount, "/ehr/board/doRetrieve.do", "pageDoRerive");
-%>
-
 <!DOCTYPE html>
 <html> 
 <head>  
-<link rel="stylesheet" href="${CP}/resources/css/user.css">
-<meta charset="UTF-8">
-
-<link rel="shortcut icon" type="image/x-icon" href="/ehr/favicon.ico">
-<meta name="viewport"  content="width=device-width, initial-scale=1">
-<link href="${CP}/resources/css/bootstrap.min.css" rel="stylesheet" >
-
-<title>Insert title here</title>
-<script src="${CP}/resources/js/bootstrap.bundle.min.js"></script>
-<script src="${CP}/resources/js/jquery-3.7.1.js"></script>
-<script src="${CP}/resources/js/eUtil.js"></script>
+<jsp:include page="/WEB-INF/cmn/header.jsp"></jsp:include>
+<title>게시판 목록</title>
 <script>
 document.addEventListener("DOMContentLoaded",function(){
 	console.log("DOMContentLoaded");
@@ -171,7 +141,7 @@ function pageDoRerive(url,pageNo){
     <!-- 제목 -->
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">게시등록</h1>
+            <h1 class="page-header">게시목록</h1>
         </div>
     </div>    
     <!--// 제목 ----------------------------------------------------------------->
@@ -252,12 +222,11 @@ function pageDoRerive(url,pageNo){
     -->           
     <div class="d-flex justify-content-center">
         <nav>
-        <%  
-           out.print(html);
-        %>
+           ${pageHtml }
         </nav>    
     </div>
     <!--// 페이징 ---------------------------------------------------------------->
+    <jsp:include page="/WEB-INF/cmn/footer.jsp"></jsp:include>               
 </div>
 
 </body>

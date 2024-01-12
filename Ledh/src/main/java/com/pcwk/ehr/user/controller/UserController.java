@@ -146,6 +146,21 @@ public class UserController {
 		//검색조건
 		model.addAttribute("searchVO", searchVO);
 		
+		//paging
+		long bottomCount = 10;//바닥글
+		long totalCnt    = 0;
+		for(UserVO vo  :list) {
+			if(totalCnt==0) {
+				totalCnt = vo.getTotalCnt();
+				break;
+			}
+		}
+		
+		
+		String html = StringUtil.renderingPager(totalCnt, searchVO.getPageNo(), searchVO.getPageSize(), bottomCount, "/ehr/user/doRetrieve.do", "pageDoRerive");
+		model.addAttribute("pageHtml", html);
+		
+		
 		return view;
 	}
 	

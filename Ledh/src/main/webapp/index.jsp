@@ -31,6 +31,16 @@
     <a class="nav-link" href="<c:url value='/board/moveToReg.do'/>">게시등록</a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="<c:url value='/chart/viewPie.do'/>">파이차트</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="<c:url value='/chart/viewLineChart.do'/>">라인차트</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="<c:url value='/template/viewBlank.do'/>">blank</a>
+  </li>  
+      
+  <li class="nav-item">
     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
   </li>
 </ul>        

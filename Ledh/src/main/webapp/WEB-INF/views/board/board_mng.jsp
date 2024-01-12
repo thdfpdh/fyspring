@@ -5,23 +5,14 @@
 <!DOCTYPE html>
 <html>
 <head> 
-<meta charset="UTF-8">
-<link rel="shortcut icon" type="image/x-icon" href="/ehr/favicon.ico">
-<meta name="viewport"  content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" 
-   integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-<link rel="stylesheet" href="${CP}/resources/css/user.css">
+<jsp:include page="/WEB-INF/cmn/header.jsp"></jsp:include>
+<title>게시판 수정</title>
 <style>
    .readonly-input {
     background-color: #e9ecef ;
    }
 
 </style>
-<title>게시수정</title>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" 
-   integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<script src="${CP}/resources/js/eUtil.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded",function(){ 
     
@@ -262,7 +253,7 @@ document.addEventListener("DOMContentLoaded",function(){
     
     
     
-    
+    <jsp:include page="/WEB-INF/cmn/footer.jsp"></jsp:include>       
 </div>
 
 </body>

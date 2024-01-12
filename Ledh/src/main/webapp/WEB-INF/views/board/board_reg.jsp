@@ -5,15 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<link rel="shortcut icon" type="image/x-icon" href="/ehr/favicon.ico">
-<meta name="viewport"  content="width=device-width, initial-scale=1">
-<link href="${CP}/resources/css/bootstrap.min.css" rel="stylesheet" >
-<link rel="stylesheet" href="${CP}/resources/css/user.css">
-<title>게시등록</title>
-<script src="${CP}/resources/js/bootstrap.bundle.min.js"></script>
-<script src="${CP}/resources/js/jquery-3.7.1.js"></script>
-<script src="${CP}/resources/js/eUtil.js"></script>
+<jsp:include page="/WEB-INF/cmn/header.jsp"></jsp:include>
+<title>게시판 등록</title>
 <script>
 document.addEventListener("DOMContentLoaded",function(){
 	console.log("DOMContentLoaded");
@@ -157,7 +150,7 @@ document.addEventListener("DOMContentLoaded",function(){
     
     
     
-    
+     <jsp:include page="/WEB-INF/cmn/footer.jsp"></jsp:include>   
 </div>
 
 </body>

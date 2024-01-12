@@ -9,63 +9,10 @@ address,cite,code,em,i{font-style:normal;font-weight:normal;}
 label,img,input,select,textarea,button,a {vertical-align:middle;}
 u,ins,a{text-decoration:none;}
 button { cursor: pointer;}
-          
-   
+                        
 body{
     font-family: 'Nanum Gothic', sans-serif;
 }
-
-table, th, td {   
-  border:1px solid #ccc;
-  border-collapse: collapse;
-}
-
-th, td {
-	padding:10px 20px;
-}
-     
-th{
-  background : green;
-}   
-   /* 정렬 */
-.txt-left{
-    text-align: left;
-}
-
-.txt-center{
-    text-align: center;
-}
-
-.txt-right{
-    text-align: right;
-}     
-
-
-.select {
-    height: 30px;    
-    vertical-align: middle;
-    font-size: 12px;  
-    border: 1px solid #999;
-}     
-.btn{
-  background-color: blue;
-  border: none;
-  color: white;
-  padding: 5px 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 1px 2px;
-  cursor: pointer;
-}    
-
-.input {
-    height: 26.5px;
-    vertical-align: middle;
-    font-size: 12px;
-     border: 1px solid #999;
-} 
 
 .title_article {
     text-align: left;

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.pcwk.ehr.chart.domain.LevelPerMemberVO;
 import com.pcwk.ehr.user.domain.UserVO;
 
 @Repository
@@ -154,6 +155,13 @@ public class UserDaoImpl implements UserDao {
 		flag = sqlSessionTemplate.selectOne(NAMESPACE+DOT+"idDuplicateCheck", inVO);
 		LOG.debug("2.flag :" + flag);
 		return flag;
+	}
+
+	@Override
+	public List<LevelPerMemberVO> levelPerMemberCount(LevelPerMemberVO inVO) throws SQLException {
+		LOG.debug("1.param :" + inVO.toString());
+		
+		return sqlSessionTemplate.selectList(NAMESPACE+DOT+"levelPerMemberCount", inVO);
 	}
 }
 

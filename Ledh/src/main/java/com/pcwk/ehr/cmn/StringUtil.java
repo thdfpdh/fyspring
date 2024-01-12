@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public class StringUtil {
 	
-	
+	public final static long BOTTOM_COUNT =10;//PC화면용
 	
 	/**
 	 * 

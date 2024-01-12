@@ -5,15 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<link rel="shortcut icon" type="image/x-icon" href="/ehr/favicon.ico">
-<meta name="viewport"  content="width=device-width, initial-scale=1">
-<link href="${CP}/resources/css/bootstrap.min.css" rel="stylesheet" >
-<link rel="stylesheet" href="${CP}/resources/css/user.css">
+<jsp:include page="/WEB-INF/cmn/header.jsp"></jsp:include>
 <title>회원등록</title>
-<script src="${CP}/resources/js/bootstrap.bundle.min.js"></script>
-<script src="${CP}/resources/js/jquery-3.7.1.js"></script>
-<script src="${CP}/resources/js/eUtil.js"></script>
 <script >
 
 	//A $( document ).ready() block.
@@ -203,8 +196,8 @@
 	    <!-- 버튼 -->
 	    <div class="row justify-content-end">
 	        <div class="col-auto">
-		       <input type="button" class="btn btn-primar" value="등록" id="doSave"      onclick="window.doSave();">
-		       <input type="button" class="btn btn-primar" value="목록" id="moveToList"  onclick="window.moveToList();">
+		       <input type="button" class="btn btn-primary" value="등록" id="doSave"      onclick="window.doSave();">
+		       <input type="button" class="btn btn-primary" value="목록" id="moveToList"  onclick="window.moveToList();">
 	        </div>
 	    </div>
         <!--// 버튼 ----------------------------------------------------------------->
@@ -254,7 +247,7 @@
 	       </form>
 	     </div>
 	     <!--// 회원 등록영역 ------------------------------------------------------>
-	     
+	     <jsp:include page="/WEB-INF/cmn/footer.jsp"></jsp:include>    
      </div>
 </body>
 </html>

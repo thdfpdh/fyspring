@@ -24,6 +24,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.pcwk.ehr.chart.domain.LevelPerMemberVO;
 import com.pcwk.ehr.user.dao.UserDao;
 import com.pcwk.ehr.user.dao.UserDaoImpl;
 import com.pcwk.ehr.user.domain.Level;
@@ -46,6 +47,9 @@ public class UserDaoJUnitTest {
 	// getCount에 사용
 	UserVO searchVO;
 	
+	
+	LevelPerMemberVO  levelPerMember;
+	
 	@Autowired  //테스트 오브젝트가 만들어지고 나면 스프링 테스트 컨텍스트에 자동으로 객체값으로 주입
 	ApplicationContext context;
 
@@ -60,6 +64,10 @@ public class UserDaoJUnitTest {
 		// getCount에 사용
 		searchVO = new UserVO();
 		searchVO.setUserId("p99");
+		//
+		levelPerMember =new LevelPerMemberVO();
+		levelPerMember.setYear("2023");
+		
 		LOG.debug("====================");
 		LOG.debug("=context=" + context);
 		LOG.debug("=dao=" + dao);
@@ -71,6 +79,16 @@ public class UserDaoJUnitTest {
 		LOG.debug("=tearDown==========================");
 	}
 
+	@Test
+	public void levelPerMemberCount()throws SQLException{
+		List<LevelPerMemberVO> list =  dao.levelPerMemberCount(levelPerMember);
+		for(LevelPerMemberVO vo :list) {
+			LOG.debug(vo);
+		}
+		assertNotNull(list);
+	}	
+		
+	@Ignore	
 	@Test
 	public void idDuplicateCheck()throws SQLException{
 		//1.데이터 삭제

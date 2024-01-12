@@ -125,6 +125,13 @@ public class BoardController implements PcwkLogger{
 		//페이지 사이즈
 		modelAndView.addObject("pageSize",pageSizeList);
 		
+		//페이징
+		long bottomCount = StringUtil.BOTTOM_COUNT;//바닥글
+		String html = StringUtil.renderingPager(totalCnt, inVO.getPageNo(), inVO.getPageSize(), bottomCount,
+				"/ehr/board/doRetrieve.do", "pageDoRerive");
+		modelAndView.addObject("pageHtml", html);
+		
+		
 		return modelAndView;   
 	}
 	

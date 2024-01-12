@@ -6,6 +6,19 @@
 namespace+id -> com.pcwk.ehr.user.doSelectOne
 -->  
 <mapper namespace="com.pcwk.ehr.user">
+
+   <select id="levelPerMemberCount" parameterType="LevelPerMemberVO" 
+           resultType="LevelPerMemberVO">
+		SELECT #{year}     as year,
+		       t2.det_name as levelName,
+		       COUNT(*)    as count
+		FROM users t1
+		INNER JOIN cmn_code t2
+		ON t1.u_level = t2.det_code
+		WHERE TO_CHAR(t1.reg_dt,'YYYY') = #{year} 
+		GROUP BY t2.det_name   
+   </select>
+
    <select id="idDuplicateCheck" parameterType="UserVO" resultType="int">
          SELECT                   
             COUNT(*) cnt         

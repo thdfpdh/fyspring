@@ -6,29 +6,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="CP" value="${pageContext.request.contextPath}" scope="page" />   
-
 <%
     UserVO dto = (UserVO)request.getAttribute("searchVO");
 %>  
 <!DOCTYPE html>
 <html> 
 <head>  
-<link rel="stylesheet" href="${CP}/resources/css/user.css">
-<meta charset="UTF-8">
-
-<link rel="shortcut icon" type="image/x-icon" href="/ehr/favicon.ico">
-<meta name="viewport"  content="width=device-width, initial-scale=1">
-<link href="${CP}/resources/css/bootstrap.min.css" rel="stylesheet" >
-
-<title>Insert title here</title>
-<script src="${CP}/resources/js/bootstrap.bundle.min.js"></script>
-<script src="${CP}/resources/js/jquery-3.7.1.js"></script>
-<script src="${CP}/resources/js/eUtil.js"></script>
-
+<jsp:include page="/WEB-INF/cmn/header.jsp"></jsp:include>
+<title>회원목록</title>
 </head>
 <body>
-<%--   <jsp:include page="/WEB-INF/cmn/header.jsp"></jsp:include>
-  <jsp:include page="/WEB-INF/cmn/nav.jsp"></jsp:include> --%>
   <div class="container">
     <!-- 제목 -->
     <div class="row">
@@ -111,9 +98,33 @@
         </tbody>
     </table>
     <!--// table -------------------------------------------------------------->
+    <!-- 페이징 : 함수로 페이징 처리 
+         총글수, 페이지 번호, 페이지 사이즈, bottomCount, url,자바스크립트 함수
+    -->           
+    <div class="d-flex justify-content-center">
+        <nav>
+            ${pageHtml}
+        </nav>    
+    </div>
+    <!--// 페이징 ---------------------------------------------------------------->    
+    
+ <jsp:include page="/WEB-INF/cmn/footer.jsp"></jsp:include>    
  </div>  
 <%--  <jsp:include page="/WEB-INF/cmn/footer.jsp"></jsp:include>   --%>
  <script type="text/javascript">
+ 
+  function pageDoRerive(url, pageNo){
+	  console.log('url:'+url);
+	  console.log('pageNo:'+pageNo);
+	  
+      let frm = document.forms['userFrm'];//form
+
+      frm.pageNo.value = pageNo;
+      //pageNo
+      frm.action = url;
+      //서버 전송
+      frm.submit();	  
+  }
   //jquery event감지
   $("#searchWord").on("keypress",function(e){
 	  console.log('searchWord:keypress');
