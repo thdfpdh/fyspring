@@ -21,6 +21,11 @@
                AND contents LIKE #{searchWord} || '%'
             </where>
         </when>
+        <when test=" ''!= searchDiv and '30' == searchDiv ">
+            <where>
+               AND mod_id LIKE #{searchWord} || '%'
+            </where>
+        </when>        
     </choose>
   </sql>  
 

@@ -1,7 +1,10 @@
 package com.pcwk.ehr.board.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,6 +23,8 @@ import com.pcwk.ehr.board.service.BoardService;
 import com.pcwk.ehr.cmn.MessageVO;
 import com.pcwk.ehr.cmn.PcwkLogger;
 import com.pcwk.ehr.cmn.StringUtil;
+import com.pcwk.ehr.code.domain.CodeVO;
+import com.pcwk.ehr.code.service.CodeService;
 
 @Controller
 @RequestMapping("board")
@@ -27,6 +32,9 @@ public class BoardController implements PcwkLogger{
 
 	@Autowired
 	BoardService service;
+	
+	@Autowired
+	CodeService  codeService;
 	
 	public BoardController() {}
 	
@@ -56,7 +64,27 @@ public class BoardController implements PcwkLogger{
 			inVO.setSearchDiv(StringUtil.nvl(inVO.getSearchWord()));
 		}
 		LOG.debug("│ BoardVO Default처리                          │"+inVO);
+		//코드목록 조회 : 'PAGE_SIZE','BOARD_SEARCH'
+		Map<String, Object> codes =new HashMap<String, Object>();
+		String[] codeStr = {"PAGE_SIZE","BOARD_SEARCH"};
 		
+		codes.put("code", codeStr);
+		List<CodeVO> codeList = this.codeService.doRetrieve(codes);
+		
+		List<CodeVO> boardSearchList=new ArrayList<CodeVO>();
+		List<CodeVO> pageSizeList=new ArrayList<CodeVO>();
+		
+		
+		for(CodeVO vo :codeList) {
+			if(vo.getMstCode().equals("BOARD_SEARCH")) {
+				boardSearchList.add(vo);
+			}
+			
+			if(vo.getMstCode().equals("PAGE_SIZE")) {
+				pageSizeList.add(vo);
+			}	
+			//LOG.debug(vo);
+		}
 		//목록조회
 		List<BoardVO>  list = service.doRetrieve(inVO);
 		
@@ -65,9 +93,15 @@ public class BoardController implements PcwkLogger{
 		//Model
 		modelAndView.addObject("list", list);
 		//검색데이터
-		modelAndView.addObject("vo", inVO);
+		modelAndView.addObject("paramVO", inVO);  
 		
-		return modelAndView;
+		//검색조건
+		modelAndView.addObject("boardSearch", boardSearchList);
+		
+		//페이지 사이즈
+		modelAndView.addObject("pageSize",pageSizeList);
+		
+		return modelAndView;   
 	}
 	
 	@PostMapping(value = "/doUpdate.do", produces = "application/json;charset=UTF-8")
@@ -90,6 +124,7 @@ public class BoardController implements PcwkLogger{
 		MessageVO messageVO=new MessageVO(flag+"",message);
 		LOG.debug("│ messageVO                           │"+messageVO);
 		return messageVO;
+		
 	}
 	
 	@GetMapping(value = "/doSelectOne.do")

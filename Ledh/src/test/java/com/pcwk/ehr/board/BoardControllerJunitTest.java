@@ -32,6 +32,7 @@ import com.pcwk.ehr.board.dao.BoardDao;
 import com.pcwk.ehr.board.domain.BoardVO;
 import com.pcwk.ehr.cmn.MessageVO;
 import com.pcwk.ehr.cmn.PcwkLogger;
+import com.pcwk.ehr.code.domain.CodeVO;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class) //스프링 테스트 컨텍스트 프레임웤그의 JUnit의 확장기능 지정
@@ -98,9 +99,16 @@ public class BoardControllerJunitTest implements PcwkLogger {
 		List<BoardVO>  list  = (List<BoardVO>) modelAndView.getModel().get("list");
 		BoardVO  paramVO  = (BoardVO) modelAndView.getModel().get("vo");
 		
+		
+		List<CodeVO> boardSearchList=(List<CodeVO>) modelAndView.getModel().get("boardSearch");
+		List<CodeVO> pageSizeList=(List<CodeVO>) modelAndView.getModel().get("pageSize");
+		
 		for(BoardVO vo  :list) {
 			LOG.debug(vo);
 		}
+		
+		assertNotNull(boardSearchList);
+		assertNotNull(pageSizeList);
 		assertNotNull(list);
 		assertNotNull(paramVO);
 		

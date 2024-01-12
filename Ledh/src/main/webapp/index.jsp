@@ -18,6 +18,6 @@
 <%-- <c:redirect url="/file/uploadView.do" /> --%>
 <%--    <c:redirect url="/login/loginView.do" /> --%>
 
-<c:redirect url="/file/dragNDropView.do" />
+<c:redirect url="/board/doRetrieve.do" />
 </body>
 </html>

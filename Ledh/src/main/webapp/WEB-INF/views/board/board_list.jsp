@@ -13,6 +13,7 @@ c:set var=변수명  value="값"
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" type="image/x-icon" href="/ehr/favicon.ico">
 <meta name="viewport"  content="width=device-width, initial-scale=1">
 <link href="${CP}/resources/css/bootstrap.min.css" rel="stylesheet" >
 <link rel="stylesheet" href="${CP}/resources/css/user.css">
@@ -20,6 +21,79 @@ c:set var=변수명  value="값"
 <script src="${CP}/resources/js/bootstrap.bundle.min.js"></script>
 <script src="${CP}/resources/js/jquery-3.7.1.js"></script>
 <script src="${CP}/resources/js/eUtil.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+	console.log("DOMContentLoaded");
+	
+	//javasript 선택자
+	const doRetrieveBTN = document.querySelector("#doRetrieve");//목록 버튼
+	const searchDivSelect = document.querySelector("#searchDiv");//id 등록 번튼
+	//let searchDivSelect = document.querySelector(".pcwk_select");//style class선택
+	//jQuery
+	//const doRetrieveBTN = $("#doRetrieve")
+	//const doRetrieveBTN = $(".doRetrieve")
+	
+	//form submit방지
+	const boardForm = document.querySelector("#boardFrm");
+	const searchWordTxt = document.querySelector("#searchWord");
+	
+	
+	searchWordTxt.addEventListener("keyup", function(e) {
+		console.log("keyup:"+e.keyCode);
+		if(13==e.keyCode){//
+			doRetrieve(1);
+		}
+		//enter event:
+	});	
+	
+	//form submit방지
+	boardForm.addEventListener("submit", function(e) {
+		console.log(e.target)
+		e.preventDefault();//submit 실행방지
+		
+	});
+	
+	//목록버튼 이벤트 감지
+	doRetrieveBTN.addEventListener("click",function(e){
+		console.log("doRetrieve click");
+		doRetrieve(1);
+	});
+	
+	function doRetrieve(pageNo){
+		console.log("doRetrieve pageNO:"+pageNo);
+		
+		let boardForm = document.boardFrm;
+		boardForm.pageNo.value = pageNo;
+		boardForm.action = "/ehr/board/doRetrieve.do";
+		console.log("doRetrieve pageNO:"+boardForm.pageNo.value);
+		boardForm.submit();
+	}
+	
+	
+	
+	//검색조건 변경!:change Event처리 
+	searchDivSelect.addEventListener("change",function(e){
+		console.log("change:"+e.target.value);
+		
+		let chValue = e.target.value;
+		if(""==chValue){ //전체
+			//console.log("chValue:"+chValue);
+		    
+		    //input text처리
+		    let searchWordTxt = document.querySelector("#searchWord");
+		    searchWordTxt.value = "";
+		    
+		    //select값 설정
+		    let pageSizeSelect =  document.querySelector("#pageSize");
+		    pageSizeSelect.value = "10";    
+		}
+	});
+	
+	
+	
+});//--DOMContentLoaded
+
+</script>
 </head>
 <body>
 <div class="container">
@@ -31,30 +105,31 @@ c:set var=변수명  value="값"
     </div>    
     <!--// 제목 ----------------------------------------------------------------->
 
-    
     <!-- 검색 -->
-    <form action="#">
+    <form action="#" method="get" id="boardFrm" name="boardFrm">
+      <input type="hidden" name="pageNo" id="pageNo" />
       <div class="row g-1 justify-content-end ">
           <label for="searchDiv" class="col-auto col-form-label">검색조건</label>
           <div class="col-auto">
-              <select class="form-select" id="searchDiv" name="searchDiv">
-                 <option value="">전체</option>
-                 <option value="10">제목</option>
-                 <option value="20">내용</option>
+              <select class="form-select pcwk_select" id="searchDiv" name="searchDiv">
+                   <option value="">전체</option>
+                 <c:forEach var="vo" items="${boardSearch }">
+                    <option value="<c:out value='${vo.detCode}'/>"  <c:if test="${vo.detCode == paramVO.searchDiv }">selected</c:if>  ><c:out value="${vo.detName}"/></option>
+                 </c:forEach>
               </select>
-          </div>
+          </div>    
           <div class="col-auto">
-              <input type="text" class="form-control" id="searchWord" name="searchWord" maxlength="100" placeholder="검색어를 입력 하세요">
+              <input type="text" class="form-control" id="searchWord" name="searchWord" maxlength="100" placeholder="검색어를 입력 하세요" value="${paramVO.searchWord}">
           </div>   
           <div class="col-auto">
                <select class="form-select" id="pageSize" name="pageSize">
-                   <option value="10">10</option>
-                   <option value="20">20</option>
-                   <option value="50">50</option>
-               </select>
+                  <c:forEach var="vo" items="${pageSize }">
+                    <option value="<c:out value='${vo.detCode }' />" <c:if test="${vo.detCode == paramVO.pageSize }">selected</c:if>  ><c:out value='${vo.detName}' /></option>
+                  </c:forEach>
+               </select>  
           </div>  
           <div class="col-auto"> <!-- 열의 너비를 내용에 따라 자동으로 설정 -->
-            <input type="button" value="목록" class="btn btn-primary" >
+            <input type="button" value="목록" class="btn btn-primary"  id="doRetrieve" >
             <input type="button" value="등록" class="btn btn-primary" >
           </div>              
       </div>
@@ -67,12 +142,12 @@ c:set var=변수명  value="값"
     <table class="table table-bordered border-primary table-hover table-striped">
       <thead>
         <tr >
-          <th scope="col" class="text-center">NO</th>
-          <th scope="col" class="text-center">제목</th>
-          <th scope="col" class="text-center">등록일</th>
-          <th scope="col" class="text-center">등록자</th>
-          <th scope="col" class="text-center">조회수</th>
-          <th scope="col" class="text-center" style="display: none;">SEQ</th>
+          <th scope="col" class="text-center col-lg-1  col-sm-1">NO</th>
+          <th scope="col" class="text-center col-lg-7  col-sm-8">제목</th>
+          <th scope="col" class="text-center col-lg-2  col-sm-1">등록일</th>
+          <th scope="col" class="text-center col-lg-1  ">등록자</th>
+          <th scope="col" class="text-center col-lg-1  ">조회수</th>
+          <th scope="col" class="text-center   " style="display: none;">SEQ</th>
         </tr>
       </thead>         
       <tbody>
@@ -81,11 +156,11 @@ c:set var=변수명  value="값"
               <!-- 반복문 -->
               <c:forEach var="vo" items="${list}" varStatus="status">
                 <tr>
-                  <td class="text-center"><c:out value="${vo.no}" escapeXml="true"/> </th>
-                  <td class="text-left"><c:out value="${vo.title}" escapeXml="true"/></td>
-                  <td class="text-center"><c:out value="${vo.modDt}" escapeXml="true"/></td>
-                  <td><c:out value="${vo.modId}" /></td>
-                  <td class="text-end"><c:out value="${vo.readCnt}" /></td>
+                  <td class="text-center col-lg-1  col-sm-1"><c:out value="${vo.no}" escapeXml="true"/> </th>
+                  <td class="text-left   col-lg-7  col-sm-8" ><c:out value="${vo.title}" escapeXml="true"/></td>
+                  <td class="text-center col-lg-2  col-sm-1"><c:out value="${vo.modDt}" escapeXml="true"/></td>
+                  <td class="            col-lg-1 "><c:out value="${vo.modId}" /></td>
+                  <td class="text-end    col-lg-1 "><c:out value="${vo.readCnt}" /></td>
                   <td  style="display: none;"><c:out value="${vo.seq}" /></td>
                 </tr>              
               </c:forEach>
@@ -94,7 +169,7 @@ c:set var=변수명  value="값"
             <c:otherwise>
                <tr>
                 <td colspan="99" class="text-center">조회된 데이터가 없습니다..</td>
-               </tr>        
+               </tr>              
             </c:otherwise>
         </c:choose>
 
