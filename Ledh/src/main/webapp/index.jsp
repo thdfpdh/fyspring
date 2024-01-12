@@ -22,6 +22,9 @@
     <a class="nav-link active" aria-current="page" href="<c:url value='/login/loginView.do'/>">로그인</a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="<c:url value='/user/doRetrieve.do'/>">회원목록</a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="<c:url value='/board/doRetrieve.do'/>">게시목록</a>
   </li>
   <li class="nav-item">

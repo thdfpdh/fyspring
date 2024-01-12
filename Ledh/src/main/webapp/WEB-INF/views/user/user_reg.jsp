@@ -1,36 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="CP" value="${pageContext.request.contextPath}" />     
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- <link rel="stylesheet" href="http://localhost:8080/ehr/resources/css/user.css"> -->
-<link rel="stylesheet" href="/ehr/resources/css/user.css">
-<style>
-    .p-label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-
-    .p-input {
-        height: 26.5px;
-        width: 380px;
-        vertical-align: middle;
-        font-size: 12px;        
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-    
-    .p-div {
-        margin-bottom: 5px;
-    }
-
-</style>
+<link rel="shortcut icon" type="image/x-icon" href="/ehr/favicon.ico">
+<meta name="viewport"  content="width=device-width, initial-scale=1">
+<link href="${CP}/resources/css/bootstrap.min.css" rel="stylesheet" >
+<link rel="stylesheet" href="${CP}/resources/css/user.css">
 <title>회원등록</title>
-<script src="/ehr/resources/js/jquery-3.7.1.js"></script>
-<script src="/ehr/resources/js/eUtil.js"></script>
+<script src="${CP}/resources/js/bootstrap.bundle.min.js"></script>
+<script src="${CP}/resources/js/jquery-3.7.1.js"></script>
+<script src="${CP}/resources/js/eUtil.js"></script>
 <script >
 
 	//A $( document ).ready() block.
@@ -209,57 +192,64 @@
 
 </head>
 <body>
-     <div>
-	     <h2>회원등록</h2>
-	     <hr/>
-	     <!-- Button영역 -->
-	     <div>
-	       <input type="button" class="btn" value="등록" id="doSave"      onclick="window.doSave();">
-	       <input type="button" class="btn" value="목록" id="moveToList"  onclick="window.moveToList();">
-	     </div>
-	     <!--// Button영역 ------------------------------------------------------>
+     <div class="container">
+         <!-- 제목 -->
+	    <div class="row">
+	        <div class="col-lg-12">
+	            <h1 class="page-header">회원등록</h1>
+	        </div>
+	    </div>    
+	    <!--// 제목 ----------------------------------------------------------------->
+	    <!-- 버튼 -->
+	    <div class="row justify-content-end">
+	        <div class="col-auto">
+		       <input type="button" class="btn btn-primar" value="등록" id="doSave"      onclick="window.doSave();">
+		       <input type="button" class="btn btn-primar" value="목록" id="moveToList"  onclick="window.moveToList();">
+	        </div>
+	    </div>
+        <!--// 버튼 ----------------------------------------------------------------->
 	     
 	     <!-- 회원 등록영역 -->  
 	     <div>
 	       <form action="#" name="userRegFrm">
 	           <%-- id중복체크 수행 여부 확인:0(미수행),1(수행) --%>
 	           <input type="hidden" name="idCheck" id="idCheck" value="0">
-	           <div class="p-div">
-	               <label for="userId" class="p-label">아이디</label>
-	               <input type="text"  class="p-input ppl_input" name="userId" id="userId" placeholder="아이디를 입력 하세요." size="20"  maxlength="30">
-	               <input type="button" class="btn" value="등록" id="idDuplicateCheck"      onclick="window.idDuplicateCheck();">
+	           <div class="mb-3">
+	               <label for="userId" class="form-label">아이디</label>
+	               <input type="text"  class="form-control ppl_input" name="userId" id="userId" placeholder="아이디를 입력 하세요." size="20"  maxlength="30">
+	               <input type="button" class="btn btn-primar" value="등록" id="idDuplicateCheck"      onclick="window.idDuplicateCheck();">
 	           </div>
-               <div class="p-div">
-                   <label for="name" class="p-label">이름</label>
-                   <input type="text"  class="p-input"  name="name" id="name" placeholder="이름을 입력 하세요." size="20"  maxlength="21">
+               <div class="mb-3"> <!--  아래쪽으로  여백 -->
+                   <label for="name" class="form-label">이름</label>
+                   <input type="text"  class="form-control"  name="name" id="name" placeholder="이름을 입력 하세요." size="20"  maxlength="21">
                </div>	
-                <div class="p-div">
-                   <label for="password" class="p-label">비밀번호</label>
-                   <input type="password"  class="p-input"  name="password" id="password" placeholder="비밀번호를 입력 하세요." size="20"  maxlength="30">
+               <div class="mb-3">
+                   <label for="password" class="form-label">비밀번호</label>
+                   <input type="password"  class="form-control"  name="password" id="password" placeholder="비밀번호를 입력 하세요." size="20"  maxlength="30">
                </div>                 
-               <div class="p-div">
-                   <label for="levelIntValue" class="p-label">등급</label>
-                   <select name="levelIntValue" id="levelIntValue" class="select">
+                <div class="mb-3">
+                   <label for="levelIntValue" class="form-label">등급</label>
+                   <select name="levelIntValue" id="levelIntValue" class="form-select">
                        <option value="1">BASIC</option>
                        <option value="2">SILVER</option>
                        <option value="3">GOLD</option>
                    </select>
                </div>   
-               <div class="p-div">
-                   <label for="login" class="p-label">로그인</label>
-                   <input type="text"  class="p-input numOnly" name="login" id="login" placeholder="로그인 회수를 입력하세요" size="20"  maxlength="8">
+               <div class="mb-3">
+                   <label for="login" class="form-label">로그인</label>
+                   <input type="text"  class="form-control numOnly" name="login" id="login" placeholder="로그인 회수를 입력하세요" size="20"  maxlength="8">
                </div>    
-               <div class="p-div">     
-                   <label for="recommend" class="p-label">추천</label>
-                   <input type="text" class="p-input numOnly"  name="recommend" id="recommend" placeholder="추천 수를 입력하세요" size="20"  maxlength="8">
+               <div class="mb-3">     
+                   <label for="recommend" class="form-label">추천</label>
+                   <input type="text" class="form-control numOnly"  name="recommend" id="recommend" placeholder="추천 수를 입력하세요" size="20"  maxlength="8">
                </div>
-               <div class="p-div">
-                   <label for="email" class="p-label">이메일</label>
-                   <input type="text"  class="p-input" name="email" id="email" placeholder="이메일을 입력하세요" size="20"  maxlength="320">
+               <div class="mb-3">
+                   <label for="email" class="form-label">이메일</label>
+                   <input type="text"  class="form-control" name="email" id="email" placeholder="이메일을 입력하세요" size="20"  maxlength="320">
                </div>
-               <div class="p-div">
-                   <label for="regDt" class="p-label">등록일</label>
-                   <input type="text" class="p-input"  name="regDt" id="regDt" placeholder="" size="20"  maxlength="7">
+               <div class="mb-3">
+                   <label for="regDt" class="form-label">등록일</label>
+                   <input type="text" class="form-control"  name="regDt" id="regDt" placeholder="" size="20"  maxlength="7">
                </div>                                                        
 	       </form>
 	     </div>

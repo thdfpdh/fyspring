@@ -1,7 +1,10 @@
 package com.pcwk.ehr.user.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +22,8 @@ import com.google.gson.Gson;
 import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.MessageVO;
 import com.pcwk.ehr.cmn.StringUtil;
+import com.pcwk.ehr.code.domain.CodeVO;
+import com.pcwk.ehr.code.service.CodeService;
 import com.pcwk.ehr.user.domain.UserVO;
 import com.pcwk.ehr.user.service.UserService;
 
@@ -29,6 +34,10 @@ public class UserController {
 	
 	@Autowired
 	UserService  userService;
+	
+	@Autowired
+	CodeService codeService;
+	
 	//http://localhost:8080/ehr/user/idDuplicateCheck.do?userId='p8-03'
 	@RequestMapping(value="/idDuplicateCheck.do",method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8"
@@ -87,18 +96,13 @@ public class UserController {
 		
 		long tPageNo      = Long.parseLong(pageNo);
 		long tPageSize    = Long.parseLong(pageSize);
+
+		long pageValue = (0==tPageNo)?1:tPageNo;
+		searchVO.setPageNo(pageValue);
+
 		
-		if(0==tPageNo) {
-			searchVO.setPageNo(1);
-		}else {
-			searchVO.setPageNo(tPageNo);
-		}
-		
-		if(0 == tPageSize ) {
-			searchVO.setPageSize(10);
-		}else {
-			searchVO.setPageSize(tPageSize);
-		}
+		long tPageSizeValue = (0 == tPageSize )?10:tPageSize;
+		searchVO.setPageSize(tPageSizeValue);
 		
 		
 		LOG.debug("pageSize:"+searchVO.getPageSize());	
@@ -109,6 +113,31 @@ public class UserController {
 		
 		
 		LOG.debug("searchVO:"+searchVO);
+		//코드목록 조회 : 'PAGE_SIZE'
+		Map<String, Object> codes =new HashMap<String, Object>();
+		String[] codeStr = {"PAGE_SIZE","USER_SEARCH"};
+		codes.put("code", codeStr);
+		
+		List<CodeVO> codeList = codeService.doRetrieve(codes);
+		
+		List<CodeVO> userSearchList = new ArrayList<CodeVO>();
+		List<CodeVO> pageSizeList = new ArrayList<CodeVO>();
+		
+		for(CodeVO vo: codeList) {
+			if(vo.getMstCode().equals("USER_SEARCH")) {
+				userSearchList.add(vo);
+			}
+			
+			if(vo.getMstCode().equals("PAGE_SIZE")) {
+				pageSizeList.add(vo);
+			}		
+		}
+		
+		//검색조건 : USER_SEARCH
+		model.addAttribute("userSearch", userSearchList);
+		
+		//페이지사이즈
+		model.addAttribute("pageSize", pageSizeList);
 		
 		List<UserVO>  list = this.userService.doRetrieve(searchVO);
 		

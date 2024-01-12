@@ -1,13 +1,31 @@
+<%@page import="com.pcwk.ehr.cmn.StringUtil"%>
+<%@page import="com.pcwk.ehr.board.domain.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>  
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
-<%-- 
-변수에 값 할당
-c:set var=변수명  value="값"  
---%>
 <c:set var="CP" value="${pageContext.request.contextPath}" scope="page" />     
+<%
+//public static String renderingPager(long maxNum, long currentPageNo, long rowPerPage, long bottomCount, String url, String scriptName ) {
+    long bottomCount = 10;
+    long pageSize    = 10;//10,20,30..
+    long pageNo      = 1;
+	long totalCnt = Long.parseLong(request.getAttribute("totalCnt").toString());
+   
+	BoardVO paramVO =  (BoardVO)request.getAttribute("paramVO");
+	pageSize  = paramVO.getPageSize();
+	pageNo    = paramVO.getPageNo();
+	
+	String contextPath = request.getContextPath();// /ehr
+   //화면에 출력:내장 객체
+   //out.print("pageSize:"+pageSize+"<br/>");
+   //out.print("pageNo:"+pageNo+"<br/>");
+   //out.print("totalCnt:"+totalCnt+"<br/>");
+   //out.print("contextPath:"+contextPath+"<br/>");
+   
+    String html = StringUtil.renderingPager(totalCnt, pageNo, pageSize, bottomCount, "/ehr/board/doRetrieve.do", "pageDoRerive");
+%>
 
 <!DOCTYPE html>
 <html> 
@@ -51,7 +69,7 @@ document.addEventListener("DOMContentLoaded",function(){
 		 console.log('seq:'+seq);
 	}); */
 	 
-  
+
 
 	//javascript:다건 이벤트 처리
 	const rows = document.querySelectorAll("#boardTable>tbody>tr");
@@ -137,6 +155,15 @@ document.addEventListener("DOMContentLoaded",function(){
 	
 });//--DOMContentLoaded
 
+function pageDoRerive(url,pageNo){
+    console.log("url:"+url);
+    console.log("pageNo:"+pageNo);
+    
+    let boardForm = document.boardFrm;
+    boardForm.pageNo.value = pageNo;
+    boardForm.action = url;
+    boardForm.submit();
+}
 </script>
 </head>
 <body>
@@ -220,24 +247,15 @@ document.addEventListener("DOMContentLoaded",function(){
     </table>
     <!--// table --------------------------------------------------------------> 
     
-    <!-- 페이징 -->           
+    <!-- 페이징 : 함수로 페이징 처리 
+         총글수, 페이지 번호, 페이지 사이즈, bottomCount, url,자바스크립트 함수
+    -->           
     <div class="d-flex justify-content-center">
         <nav>
-            <ul class="pagination">
-                <li class="page-item"><a  class="page-link" href="#"><span>&laquo;</span></a></li>
-                <li><a  class="page-link" href="#">1</a></li>
-                <li><a  class="page-link" href="#">2</a></li>
-                <li><a  class="page-link" href="#">3</a></li>
-                <li><a  class="page-link" href="#">4</a></li>
-                <li><a  class="page-link" href="#">5</a></li>
-                <li><a  class="page-link" href="#">6</a></li>
-                <li><a  class="page-link" href="#">7</a></li>
-                <li><a  class="page-link" href="#">8</a></li>
-                <li><a  class="page-link" href="#">9</a></li>
-                <li><a  class="page-link" href="#">10</a></li>
-                <li><a  class="page-link" href="#"><span>&raquo;</span></a></li>
-            </ul>
-        </nav>
+        <%  
+           out.print(html);
+        %>
+        </nav>    
     </div>
     <!--// 페이징 ---------------------------------------------------------------->
 </div>

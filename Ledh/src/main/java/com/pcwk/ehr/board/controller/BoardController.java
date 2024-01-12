@@ -101,6 +101,17 @@ public class BoardController implements PcwkLogger{
 		//목록조회
 		List<BoardVO>  list = service.doRetrieve(inVO);
 		
+		
+		long totalCnt = 0;
+		//총글수 
+		for(BoardVO vo  :list) {
+			if(totalCnt == 0) {
+				totalCnt = vo.getTotalCnt();
+				break;
+			}
+		}
+		modelAndView.addObject("totalCnt", totalCnt);
+		
 		//뷰
 		modelAndView.setViewName("board/board_list");//  /WEB-INF/views/board/board_list.jsp
 		//Model
@@ -241,15 +252,3 @@ public class BoardController implements PcwkLogger{
 	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
