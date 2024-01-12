@@ -26,9 +26,11 @@ document.addEventListener("DOMContentLoaded",function(){
 	console.log("DOMContentLoaded");
 	
 	//javasript 선택자
+	const moveToRegBTN  = document.querySelector("#moveToReg");
 	const doRetrieveBTN = document.querySelector("#doRetrieve");//목록 버튼
 	const searchDivSelect = document.querySelector("#searchDiv");//id 등록 번튼
 	//let searchDivSelect = document.querySelector(".pcwk_select");//style class선택
+	
 	//jQuery
 	//const doRetrieveBTN = $("#doRetrieve")
 	//const doRetrieveBTN = $(".doRetrieve")
@@ -36,6 +38,37 @@ document.addEventListener("DOMContentLoaded",function(){
 	//form submit방지
 	const boardForm = document.querySelector("#boardFrm");
 	const searchWordTxt = document.querySelector("#searchWord");
+	
+	//jquery
+/* 	$("#boardTable>tbody").on("click","tr" , function(e){
+		 console.log('boardTable:');
+		 let tdArray = $(this).children();
+		 let seq = tdArray.eq(5).text();
+		 console.log('seq:'+seq);
+	}); */
+	 
+	//javascript
+	const rows = document.querySelectorAll("#boardTable>tbody>tr");
+	//각행에 이벤트 처리
+	rows.forEach(function(row) {
+		row.addEventListener('click',function(e){
+	         //클릭된 행의 모든 셀(td)을 가져 오기		
+			 let cells = row.getElementsByTagName("td");
+			 const seq   = cells[5].innerText;
+			 console.log('seq:'+seq);
+		});
+	});
+
+	
+	
+	moveToRegBTN.addEventListener("click",function(e){
+		console.log("moveToRegBTN click");
+		
+		boardForm.action = "/ehr/board/moveToReg.do";
+		boardForm.submit();
+		
+	});
+	
 	
 	
 	searchWordTxt.addEventListener("keyup", function(e) {
@@ -90,7 +123,6 @@ document.addEventListener("DOMContentLoaded",function(){
 	});
 	
 	
-	
 });//--DOMContentLoaded
 
 </script>
@@ -112,10 +144,10 @@ document.addEventListener("DOMContentLoaded",function(){
           <label for="searchDiv" class="col-auto col-form-label">검색조건</label>
           <div class="col-auto">
               <select class="form-select pcwk_select" id="searchDiv" name="searchDiv">
-                   <option value="">전체</option>
-                 <c:forEach var="vo" items="${boardSearch }">
-                    <option value="<c:out value='${vo.detCode}'/>"  <c:if test="${vo.detCode == paramVO.searchDiv }">selected</c:if>  ><c:out value="${vo.detName}"/></option>
-                 </c:forEach>
+                     <option value="">전체</option>
+	                 <c:forEach var="vo" items="${boardSearch }">
+	                    <option value="<c:out value='${vo.detCode}'/>"  <c:if test="${vo.detCode == paramVO.searchDiv }">selected</c:if>  ><c:out value="${vo.detName}"/></option>
+	                 </c:forEach>
               </select>
           </div>    
           <div class="col-auto">
@@ -129,8 +161,8 @@ document.addEventListener("DOMContentLoaded",function(){
                </select>  
           </div>  
           <div class="col-auto"> <!-- 열의 너비를 내용에 따라 자동으로 설정 -->
-            <input type="button" value="목록" class="btn btn-primary"  id="doRetrieve" >
-            <input type="button" value="등록" class="btn btn-primary" >
+            <input type="button" value="목록" class="btn btn-primary"  id="doRetrieve">
+            <input type="button" value="등록" class="btn btn-primary"  id="moveToReg">
           </div>              
       </div>
                            
@@ -139,7 +171,7 @@ document.addEventListener("DOMContentLoaded",function(){
     
     
     <!-- table -->
-    <table class="table table-bordered border-primary table-hover table-striped">
+    <table class="table table-bordered border-primary table-hover table-striped" id="boardTable">
       <thead>
         <tr >
           <th scope="col" class="text-center col-lg-1  col-sm-1">NO</th>
@@ -172,8 +204,6 @@ document.addEventListener("DOMContentLoaded",function(){
                </tr>              
             </c:otherwise>
         </c:choose>
-
-
       </tbody>
     </table>
     <!--// table --------------------------------------------------------------> 

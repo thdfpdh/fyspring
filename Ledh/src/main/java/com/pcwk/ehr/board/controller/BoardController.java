@@ -38,6 +38,16 @@ public class BoardController implements PcwkLogger{
 	
 	public BoardController() {}
 	
+	@GetMapping(value="/moveToReg.do")
+	public String moveToReg() {
+		String viewName = "";
+		LOG.debug("┌───────────────────────────────────┐");
+		LOG.debug("│ moveToReg                         │");
+		LOG.debug("└───────────────────────────────────┘");		
+		viewName = "board/board_reg";///WEB-INF/views/ viewName .jsp
+		return viewName;
+	}
+	
 	@GetMapping(value = "/doRetrieve.do")
 	public ModelAndView doRetrieve(BoardVO inVO, ModelAndView modelAndView) throws SQLException{
 		LOG.debug("┌───────────────────────────────────┐");
@@ -156,7 +166,10 @@ public class BoardController implements PcwkLogger{
 		LOG.debug("│ doSave                            │");
 		LOG.debug("│ BoardVO                           │"+inVO);
 		LOG.debug("└───────────────────────────────────┘");				
-		
+		//seq조회
+		int seq = service.getBoardSeq();
+		inVO.setSeq(seq);
+		LOG.debug("│ BoardVO seq                       │"+inVO);
 		int flag = service.doSave(inVO);
 		
 		String message = "";

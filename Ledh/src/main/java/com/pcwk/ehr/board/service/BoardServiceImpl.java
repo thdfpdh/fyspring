@@ -56,4 +56,9 @@ public class BoardServiceImpl implements BoardService,PcwkLogger {
 		return dao.doRetrieve(inVO);
 	}
 
+	@Override
+	public int getBoardSeq() throws SQLException {
+		return dao.getBoardSeq();
+	}
+
 }

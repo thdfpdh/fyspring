@@ -8,7 +8,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import com.pcwk.ehr.board.domain.BoardVO;
 
 public interface BoardService {
-    	
+   
+	public int getBoardSeq()throws SQLException;
 	public int doUpdate(BoardVO inVO) throws SQLException;
 	
 	public int doDelete(BoardVO inVO) throws SQLException;
