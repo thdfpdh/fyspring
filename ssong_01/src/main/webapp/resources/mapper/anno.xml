@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcwk.anno">
+	<select id="doSelectOne"
+		parameterType="com.pcwk.ehr.anno.domain.AnnoVO"
+		resultType="com.pcwk.ehr.anno.domain.AnnoVO">
+		SELECT #{userId}||'_pcwk_mybatis' as userId,
+		#{password}||'_pcwk_mybatis' as password,
+		FROM dual
+	</select>
+</mapper>
