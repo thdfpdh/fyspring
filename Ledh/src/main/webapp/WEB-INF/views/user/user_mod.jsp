@@ -58,7 +58,7 @@
            asyn:"true",
            dataType:"json", /*return dataType: json으로 return */
            data:{
-               userId: userId
+               "userId": userId
            },
            success:function(data){//통신 성공
                console.log("success data:"+data);

@@ -4,11 +4,11 @@ public class DTO {
 
 	private long no;      //글번호
 	private long totalCnt;//총글수
-	private long pageSize;//페이지 시이즈:10,20,30,50,100
+	private long pageSize;//페이지 사이즈:10,20,30,50,100
 	private long pageNo;  //페이지 번호:1,2,3...
 	
 	private String searchDiv;//검색구분
-	private String searchWord;//검색구분
+	private String searchWord;//검색어
 	
 	public DTO() {}
 

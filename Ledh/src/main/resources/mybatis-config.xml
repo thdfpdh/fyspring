@@ -10,6 +10,7 @@
         <setting name="logImpl" value="LOG4J2"/>
     </settings>
     <typeAliases>
+        <typeAlias type="com.pcwk.ehr.code.domain.CodeVO"   alias="CodeVO"/>
         <typeAlias type="com.pcwk.ehr.user.domain.UserVO"   alias="UserVO"/>
         <typeAlias type="com.pcwk.ehr.file.domain.FileVO"   alias="FileVO"/>
         <typeAlias type="com.pcwk.ehr.board.domain.BoardVO" alias="BoardVO"/>
