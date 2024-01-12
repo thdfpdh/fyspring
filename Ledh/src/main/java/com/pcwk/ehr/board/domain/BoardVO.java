@@ -11,7 +11,6 @@ import lombok.ToString;
 @Getter  //setter
 @Setter  //getter
 @NoArgsConstructor //default 생성자
-@ToString          //toString
 @AllArgsConstructor//모든인자 생성자
 public class BoardVO extends DTO {
 	//소문자 변환: ctrl+shift+y
@@ -25,6 +24,13 @@ public class BoardVO extends DTO {
 	private String  regId	;//등록자
 	private String  modDt	;//수정일
 	private String  modId	;//수정자
+	
+	@Override
+	public String toString() {
+		return "BoardVO [seq=" + seq + ", div=" + div + ", title=" + title + ", contents=" + contents + ", readCnt="
+				+ readCnt + ", regDt=" + regDt + ", regId=" + regId + ", modDt=" + modDt + ", modId=" + modId
+				+ ", toString()=" + super.toString() + "]";
+	}
 	
 	
 }
