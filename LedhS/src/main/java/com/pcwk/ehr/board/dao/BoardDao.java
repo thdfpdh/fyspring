@@ -7,6 +7,27 @@ import com.pcwk.ehr.cmn.WorkDiv;
 
 public interface BoardDao extends WorkDiv<BoardVO> {
 
-	int getBoardSeq() throws SQLException;
-
+	/**
+	 * board_seq 
+	 * @return int
+	 * @throws SQLException
+	 */
+	int getBoardSeq()throws SQLException;
+	
+	/**
+	 * 글제목으로 삭제: test only
+	 * @param inVO
+	 * @return int
+	 * @throws SQLException
+	 */
+	int doDeleteAll(BoardVO inVO)throws SQLException;
+	
+	/**
+	 * 조회건수 증가
+	 * @param inVO
+	 * @return int
+	 * @throws SQLException
+	 */
+	int updateReadCnt(BoardVO inVO)throws SQLException;  
+	
 }
