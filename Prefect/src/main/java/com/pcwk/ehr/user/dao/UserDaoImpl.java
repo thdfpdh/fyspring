@@ -73,9 +73,6 @@ public class UserDaoImpl implements UserDao {
 		return count;
 	}
 	
-
-	
-	
 	
 	// ctrl+o : class 내 메소드
 	@Override

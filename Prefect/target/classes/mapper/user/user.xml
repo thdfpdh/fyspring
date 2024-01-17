@@ -12,7 +12,7 @@ namespace+id -> com.pcwk.ehr.user.doSelectOne
             COUNT(*) cnt         
          FROM                     
             users                
-         WHERE user_id = #{userId}   
+         WHERE email = #{email}   
    </select>
 
     <sql id="searchCondition">
@@ -24,9 +24,10 @@ namespace+id -> com.pcwk.ehr.user.doSelectOne
                 <when test="searchDiv !=null and searchDiv == '20'">
                     name LIKE #{searchWord} ||'%'
                 </when>
-                <when test="searchDiv !=null and searchDiv == '30'">
-                    email LIKE #{searchWord} ||'%'
-                </when>                  	            
+                    <when test="searchDiv !=null and searchDiv == '30'">
+                    name LIKE #{searchWord} ||'%'
+                </when>
+               	            
 	        </choose>
 	           
 	    </where>            
@@ -37,22 +38,19 @@ namespace+id -> com.pcwk.ehr.user.doSelectOne
 		SELECT A.*,B.*
 		FROM(
 		    SELECT TT1.rnum AS no,
-		           TT1.user_id,
-		           TT1.name,
-		           TT1.u_level as levelIntValue ,
-		           TT1.login,
-		           TT1.recommend,
 		           TT1.email,
-		           DECODE( TO_CHAR(TT1.reg_dt,'YYYY-MM-DD'),TO_CHAR(SYSDATE,'YYYY-MM-DD')
-		                   ,TO_CHAR(TT1.reg_dt,'HH24:MI')
-		                   ,TO_CHAR(TT1.reg_dt,'YYYY-MM-DD')) AS reg_dt
+		           TT1.name,
+		           TT1.password,
+		           TT1.tel,
+		           TT1.edu,
+		           TT1.role
 		    FROM (
 		        SELECT ROWNUM AS rnum, T1.*
 		        FROM (SELECT *
 		              FROM users
-		              --WHERE조건 user_id(10),name(20),email(30),
+		              <!--WHERE조건 email(10),name(20),role(30) 회원 검색조건 : 이메일 ,이름,등급 -->
                       <include refid="searchCondition"></include>
-		              ORDER BY reg_dt desc
+		              ORDER BY name desc
 		        )T1      
            
 		     <![CDATA[   WHERE ROWNUM <= ( #{pageSize} * (#{pageNo} - 1)+ #{pageSize} ) 
@@ -68,55 +66,51 @@ namespace+id -> com.pcwk.ehr.user.doSelectOne
 		)B
         
     </select>
-    
+
     
     <resultMap type="UserVO" id="userMap">
-        <result column="user_id"     property="userId"/>
-        <result column="name"        property="name"/>
-        <result column="password"    property="password"/>
-        <result column="u_level"     property="levelIntValue"/>
-        <result column="login"       property="login"/>
-        <result column="recommend"   property="recommend"/>
-        <result column="email"       property="email"/>
-        <result column="regDt"       property="regDt"/>
+        <result column="EMAIL"     property="email"/>
+        <result column="NAME"        property="name"/>
+        <result column="PASSWORD"    property="password"/>
+        <result column="TEL"     property="tel"/>
+        <result column="EDU"       property="edu"/>
+        <result column="ROLE"   property="role"/>
+
     </resultMap>
     
     <select id="getAll" parameterType="UserVO" resultMap="userMap">
-		 SELECT  t1.user_id,                                      
-		         t1.name,                                         
-		         t1.password ,                                     
-		         t1.u_level,                                      
-		         t1.login,                                        
-		         t1.recommend,                                    
-		         t1.email,                                        
-		         TO_CHAR(t1.reg_dt,'YYYY-MM-DD HH24:MI:SS') reg_dt
+		 SELECT    email,         
+                    name,            
+                    password,        
+                    tel,         
+                    edu,           
+                    role                                       
 		 FROM                                                     
-		    users t1                                             
-		 WHERE user_id LIKE #{userId}||'%'                                
-		 ORDER BY t1.user_id                                      
-    </select>
+		           users                                           
+		 WHERE email LIKE #{email}||'%'                                
+		 ORDER BY email                                      
+    </select> <!-- 메일(계정) 불러오기? 회원 조회할때 사용할듯 -->
 
     <select id="getCount" resultType="int" parameterType="UserVO">
 	     SELECT                   
 	        COUNT(*) cnt         
 		 FROM                     
 		    users                
-		 WHERE user_id LIKE #{userId} ||'%'
-    </select>
+		 WHERE email LIKE #{email} ||'%'
+    </select> <!-- users 테이블에있는 email갯수 카운팅 하는 쿼리 -->
 
 
     <update id="doUpdate" parameterType="UserVO">
 	     UPDATE users             
-		 SET name       = #{name}       
+		 SET email      = #{email}       
+		     ,name      = #{name}       
 		     ,password  = #{password}       
-		     ,u_level   = #{levelIntValue}       
-		     ,login     = #{login}       
-		     ,recommend = #{recommend}       
-		     ,email     = #{email}       
-		     ,reg_dt    = SYSDATE 
+		     ,tel       = #{tel}       
+		     ,edu       = #{edu}       
+		     ,role      = #{role}       
 		 WHERE                    
-		     user_id = #{userId}          
-    </update>
+		     email      = #{email}          
+    </update> <!-- 회원정보 변경 쿼리 -->
 
 
 
@@ -124,46 +118,40 @@ namespace+id -> com.pcwk.ehr.user.doSelectOne
     <select id="doSelectOne" parameterType="UserVO" 
     resultType="UserVO">
 		SELECT             
-		     user_id  AS userId,       
-		     name,          
-		     password,      
-		     u_level  AS levelIntValue,       
-		     login,         
-		     recommend,     
-		     email,         
-		     TO_CHAR(reg_dt,'yyyy-mm-dd HH24:MI:SS') AS regDt     
+		    email,         
+            name,            
+            password,        
+            tel,         
+            edu,           
+            role  
 		 FROM               
 		     users          
-		 WHERE user_id = #{userId}      
-    </select>
+		 WHERE email = #{email}      
+    </select> <!-- 한건 조회 -->
 
 
     <insert id="doSave" parameterType="UserVO">
 		INSERT INTO users (  
-		    user_id,         
+		    email,         
 		    name,            
 		    password,        
-		    u_level,         
-		    login,           
-		    recommend,       
-		    email,           
-		    reg_dt           
+		    tel,         
+		    edu,           
+		    role       		                 
 		) VALUES (           
-		    #{userId},               
+		    #{email},               
 		    #{name},               
 		    #{password},               
-		    #{levelIntValue},               
-		    #{login},               
-		    #{recommend},               
-		    #{email},               
-		    SYSDATE          
+		    #{tel},               
+		    #{edu},               
+		    #{role}                        
 		)                        
-    </insert>
+    </insert> <!-- 회원 등록 쿼리 -->
 
 
     <delete id="doDelete" parameterType="UserVO">
 	    DELETE FROM users 
-	    WHERE  user_id = #{userId}
-    </delete>
+	    WHERE  email = #{email}
+    </delete> <!--  회원 삭제 쿼리  -->
 
 </mapper>  

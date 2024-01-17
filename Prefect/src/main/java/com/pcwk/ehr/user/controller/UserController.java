@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.MessageVO;
 import com.pcwk.ehr.cmn.StringUtil;
 import com.pcwk.ehr.code.domain.CodeVO;
@@ -51,9 +52,9 @@ public class UserController {
 		int flag = userService.idDuplicateCheck(inVO);
 		String message = "";
 		if(0==flag) {
-			message = inVO.getUserId()+"사용 가능한 아이디 입니다.";
+			message = inVO.getEmail()+"사용 가능한 아이디 입니다.";
 		}else {
-			message = inVO.getUserId()+"사용 불가한 아이디 입니다.";
+			message = inVO.getEmail()+"사용 불가한 아이디 입니다.";
 		}
 		MessageVO messageVO=new MessageVO(flag+"", message);
 		jsonString = new Gson().toJson(messageVO);		
@@ -177,9 +178,9 @@ public class UserController {
 		int flag = this.userService.doUpdate(inVO);
 		String message = "";
 		if(1==flag) {
-			message = inVO.getUserId()+"가 수정 되었습니다.";
+			message = inVO.getEmail()+"가 수정 되었습니다.";
 		}else {
-			message = inVO.getUserId()+"수정 실패";
+			message = inVO.getEmail()+"수정 실패";
 		}
 		MessageVO messageVO=new MessageVO(flag+"", message);
 		jsonString = new Gson().toJson(messageVO);
@@ -232,9 +233,9 @@ public class UserController {
 		String message = "";
 		
 		if(1==flag) {
-			message = inVO.getUserId()+"가 삭제 되었습니다.";
+			message = inVO.getEmail()+"가 삭제 되었습니다.";
 		}else {
-			message = inVO.getUserId()+" 삭제 실패.";
+			message = inVO.getEmail()+" 삭제 실패.";
 		}
 		
 		MessageVO  messageVO=new MessageVO(String.valueOf(flag),message);
@@ -260,9 +261,9 @@ public class UserController {
 		String message = "";
 		
 		if(1==flag) {
-			message = inVO.getUserId()+"가 등록 되었습니다.";
+			message = inVO.getEmail()+"가 등록 되었습니다.";
 		}else {
-			message = inVO.getUserId()+"등록 실패.";
+			message = inVO.getEmail()+"등록 실패.";
 		}
 		
 		MessageVO messageVO=new MessageVO(flag+"", message);

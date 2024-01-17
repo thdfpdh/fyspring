@@ -9,6 +9,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.pcwk.ehr.board.domain.BoardVO;
+
 @Repository
 public class BoardDaoImpl implements BoardDao {
 	final String NAMESPACE = "com.pcwk.ehr.board";

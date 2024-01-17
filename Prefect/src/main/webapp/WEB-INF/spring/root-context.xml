@@ -118,8 +118,8 @@
 
 
 	<!-- DummyMailSender:개발서버용 -->
-	<bean id="dummyMailSender"
-		class="com.pcwk.ehr.user.service.DummyMailSender"></bean>
+	<!-- <bean id="dummyMailSender"
+		class="com.pcwk.ehr.user.service.DummyMailSender"></bean> -->
 	<!-- JavaMailSenderImpl: Naver smtp -->
 	<bean id="mailSenderImpl"
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">

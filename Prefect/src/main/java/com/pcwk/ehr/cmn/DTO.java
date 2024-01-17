@@ -10,7 +10,6 @@ public class DTO {
 	private String searchDiv;//검색구분
 	private String searchWord;//검색어
 	
-	
 	public DTO() {}
 
 	

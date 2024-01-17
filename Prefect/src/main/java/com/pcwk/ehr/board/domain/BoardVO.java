@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter // setter
-@Setter // getter
+@Getter // getter
+@Setter // setter
 @NoArgsConstructor // default 생성자
 @AllArgsConstructor // 모든인자 생성자
 public class BoardVO extends DTO {

@@ -2,6 +2,8 @@ package com.pcwk.ehr.board;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -49,12 +51,71 @@ public class BoardDaoJunitTest implements PcwkLogger{
 		String modDt = "사용하지않음";
 		String modId = "고송민";
 		
-		board01 = new BoardVO(dao.getBoardSeq(),email, div, title, contents, readCnt,regDt,regId, modDt, modId);
+		board01 = new BoardVO(dao.getBoardSeq(),email, div, title+"1", contents+"1", readCnt,regDt,regId, modDt, modId);
+//		board02 = new BoardVO(dao.getBoardSeq(),email, div, title+"2", contents+"2", readCnt,regDt,regId, modDt, modId);
+//		board03 = new BoardVO(dao.getBoardSeq(),email, div, title+"3", contents+"3", readCnt,regDt,regId, modDt, modId);
 	}
+	
+	@Test
+	public void addAndGet()throws SQLException{
+		//1. 삭제
+		//2. 등록
+		//3. 단건조회
+		
+		//1.
+		dao.doDelete(board01);
+//		dao.doDelete(board02);
+//		dao.doDelete(board03);
+		
+		LOG.debug("board01.getSeq():"+board01.getSeq());
+//		LOG.debug("board02.getSeq():"+board02.getSeq());
+//		LOG.debug("board03.getSeq():"+board03.getSeq());
+		
+		//2.
+		int flag = dao.doSave(board01);
+		assertEquals(1, flag);
+		
+//		flag = dao.doSave(board02);
+//		assertEquals(1, flag);
+//		
+//		flag = dao.doSave(board03);
+//		assertEquals(1, flag);		
+		
+		//3.
+		BoardVO vo01 = dao.doSelectOne(board01);
+//		BoardVO vo02 = dao.doSelectOne(board02);
+//		BoardVO vo03 = dao.doSelectOne(board03);
+		
+		isSameBoard(vo01, board01);
+//		isSameBoard(vo02, board02);
+//		isSameBoard(vo03, board03);
+	}
+	
+	private void isSameBoard(BoardVO vo, BoardVO board) {
+		assertEquals(vo.getSeq(), board.getSeq());
+		assertEquals(vo.getEmail(), board.getEmail());
+		assertEquals(vo.getDiv(), board.getDiv());
+		assertEquals(vo.getTitle(), board.getTitle());
+		assertEquals(vo.getContents(), board.getContents());
+		assertEquals(vo.getReadCnt(), board.getReadCnt());
+		assertEquals(vo.getRegId(), board.getRegId());
+		assertEquals(vo.getModId(), board.getModId());
+	}
+	
+	
+	
+	
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void beans() {
+		LOG.debug("┌───────────────────────────────────┐");
+		LOG.debug("│ beans                             │");
+		LOG.debug("│ dao                               │"+dao);
+		LOG.debug("│ context                           │"+context);
+		LOG.debug("└───────────────────────────────────┘");
+		
+		assertNotNull(dao);
+		assertNotNull(context);
 	}
 
 }
